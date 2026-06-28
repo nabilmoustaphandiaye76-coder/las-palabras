@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAS PALABRAS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  :root {
+    --void: #080810;
+    --deep: #0d0d1a;
+    --ink: #12121f;
+    --plasma: #7c3aed;
+    --plasma-bright: #a855f7;
+    --plasma-glow: rgba(124,58,237,0.4);
+    --acid: #22d3ee;
+    --acid-dim: rgba(34,211,238,0.15);
+    --burn: #f97316;
+    --kill: #ef4444;
+    --win: #10b981;
+    --ghost: rgba(255,255,255,0.05);
+    --text: #e2e8f0;
+    --muted: rgba(226,232,240,0.4);
+    --border: rgba(124,58,237,0.2);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+    top: -200px; right: -200px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: orb 8s ease-in-out infinite;
+  }
+
+  @keyframes orb {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(-40px, 40px); }
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* HEADER */
+  .brand {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+  }
+
+  .brand-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 12vw, 88px);
+    letter-spacing: 0.12em;
+    line-height: 0.9;
+    background: linear-gradient(135deg, #fff 0%, var(--plasma-bright) 50%, var(--acid) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px var(--plasma-glow));
+  }
+
+  .brand-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* PANELS */
+  .panel {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(13,13,26,0.95) 0%, rgba(18,18,31,0.95) 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 0 1px rgba(124,58,237,0.1), 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    margin-bottom: 20px;
+  }
+
+  .panel-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--plasma-bright);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--plasma-bright), transparent);
+    opacity: 0.3;
+  }
+
+  /* INPUTS */
+  .input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  input[type="text"], input[type="number"] {
+    background: var(--ghost);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+  }
+
+  input:focus {
+    border-color: var(--plasma-bright);
+    background: rgba(124,58,237,0.08);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+  }
+
+  input::placeholder { color: var(--muted); }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--plasma) 0%, var(--plasma-bright) 100%);
+    color: #fff;
+    box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(124,58,237,0.6);
+  }
+
+  .btn-secondary {
+    background: var(--ghost);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--plasma-bright);
+    color: var(--plasma-bright);
+    background: rgba(124,58,237,0.1);
+  }
+
+  .btn-acid {
+    background: linear-gradient(135deg, #0891b2 0%, var(--acid) 100%);
+    color: var(--void);
+    font-weight: 700;
+    box-shadow: 0 4px 24px rgba(34,211,238,0.3);
+  }
+
+  .btn-acid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(34,211,238,0.5);
+  }
+
+  .btn-full { width: 100%; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* DIVIDER */
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CODE SHARE */
+  .code-box {
+    background: var(--void);
+    border: 1px solid rgba(34,211,238,0.3);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .code-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--acid);
+    text-shadow: 0 0 20px rgba(34,211,238,0.4);
+  }
+
+  .copy-btn {
+    background: var(--acid-dim);
+    border: 1px solid rgba(34,211,238,0.3);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--acid);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .copy-btn:hover { background: rgba(34,211,238,0.25); }
+
+  /* URL SHARE BOX */
+  .url-share-box {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .url-share-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--win);
+    word-break: break-all;
+    flex: 1;
+  }
+
+  /* PLAYERS LIST */
+  .players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .player-chip {
+    background: var(--ghost);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+
+  .player-chip.active-turn {
+    border-color: var(--plasma-bright);
+    background: rgba(124,58,237,0.15);
+    box-shadow: 0 0 16px rgba(124,58,237,0.2);
+  }
+
+  .player-chip.eliminated {
+    opacity: 0.35;
+    text-decoration: line-through;
+  }
+
+  .player-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .player-dot.ready { background: var(--win); box-shadow: 0 0 8px var(--win); }
+  .player-dot.turn { background: var(--plasma-bright); box-shadow: 0 0 8px var(--plasma-bright); animation: pulse-dot 1s infinite; }
+
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* GAME AREA */
+  .letter-track {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 80px;
+    padding: 20px;
+    background: var(--void);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin: 20px 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .letter-tile {
+    width: 52px; height: 60px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .letter-tile.placed {
+    background: linear-gradient(135deg, rgba(124,58,237,0.2) 0%, rgba(168,85,247,0.1) 100%);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: var(--text);
+  }
+
+  .letter-tile.new-tile {
+    background: linear-gradient(135deg, rgba(34,211,238,0.2) 0%, rgba(34,211,238,0.05) 100%);
+    border: 1px solid rgba(34,211,238,0.5);
+    color: var(--acid);
+    animation: tile-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .letter-tile.word-lose {
+    background: linear-gradient(135deg, rgba(239,68,68,0.25) 0%, rgba(239,68,68,0.05) 100%);
+    border: 1px solid rgba(239,68,68,0.5);
+    color: var(--kill);
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes tile-in {
+    from { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* COUNTDOWN */
+  .countdown-ring {
+    position: relative;
+    width: 88px; height: 88px;
+    flex-shrink: 0;
+  }
+
+  .countdown-ring svg {
+    transform: rotate(-90deg);
+  }
+
+  .countdown-ring .ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.06);
+    stroke-width: 4;
+  }
+
+  .countdown-ring .ring-progress {
+    fill: none;
+    stroke: var(--acid);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    transition: stroke-dashoffset 0.9s linear, stroke 0.3s;
+  }
+
+  .countdown-ring .ring-progress.urgent { stroke: var(--burn); }
+  .countdown-ring .ring-progress.critical { stroke: var(--kill); }
+
+  .countdown-number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--acid);
+    transition: color 0.3s;
+  }
+
+  .countdown-number.urgent { color: var(--burn); }
+  .countdown-number.critical { color: var(--kill); animation: blink 0.5s infinite; }
+
+  @keyframes blink { 50% { opacity: 0.3; } }
+
+  /* INPUT ZONE */
+  .input-zone {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    align-items: center;
+  }
+
+  .letter-input {
+    flex: 1;
+    background: var(--ghost);
+    border: 2px solid var(--plasma);
+    border-radius: 12px;
+    padding: 16px 20px;
+    color: var(--text);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    outline: none;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .letter-input:focus {
+    border-color: var(--plasma-bright);
+    box-shadow: 0 0 30px rgba(124,58,237,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  /* TURN BANNER */
+  .turn-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(168,85,247,0.05) 100%);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .turn-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .turn-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--plasma-bright);
+  }
+
+  /* SCORES */
+  .scores-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--ghost);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .score-row.eliminated-row {
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
+
+  .score-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: var(--kill);
+  }
+
+  /* NOTIFICATIONS */
+  .notif {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 100;
+    transform: translateX(110%);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 300px;
+    pointer-events: none;
+  }
+
+  .notif.show { transform: translateX(0); }
+  .notif.info { background: rgba(124,58,237,0.9); border: 1px solid var(--plasma-bright); color: #fff; }
+  .notif.success { background: rgba(16,185,129,0.9); border: 1px solid var(--win); color: #fff; }
+  .notif.error { background: rgba(239,68,68,0.9); border: 1px solid var(--kill); color: #fff; }
+  .notif.warn { background: rgba(249,115,22,0.9); border: 1px solid var(--burn); color: #fff; }
+
+  /* VICTORY */
+  .victory-screen {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .victory-crown {
+    font-size: 72px;
+    animation: float 3s ease-in-out infinite;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
+
+  .victory-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, var(--win), var(--acid));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .victory-winner {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 8px 0 24px;
+  }
+
+  /* HIDE/SHOW */
+  .hidden { display: none !important; }
+  .flex-col { display: flex; flex-direction: column; gap: 12px; }
+  .flex-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .text-muted { color: var(--muted); font-size: 13px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+
+  /* WORD VALIDATED FLASH */
+  .word-validated {
+    text-align: center;
+    padding: 12px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 10px;
+    color: var(--kill);
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* WAITING DOTS */
+  .waiting-dots span {
+    display: inline-block;
+    animation: dot-bounce 1.2s infinite;
+    font-size: 20px;
+    color: var(--plasma-bright);
+  }
+  .waiting-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .waiting-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dot-bounce {
+    0%,80%,100% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+  }
+
+  /* CURRENT WORD */
+  .current-word-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .current-word-display .word-str {
+    color: var(--acid);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+
+  /* LINK SHARE */
+  .link-input-wrap {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .link-input-wrap input {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .panel { padding: 24px 18px; }
+    .letter-tile { width: 42px; height: 50px; font-size: 22px; }
+    .input-zone { flex-direction: column; }
+    .countdown-ring { width: 70px; height: 70px; }
+    .countdown-number { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="brand">
+    <div class="brand-title">LAS PALABRAS</div>
+    <div class="brand-sub">Le mot qui tue · Multijoueur · En ligne</div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div class="notif" id="notif"></div>
+
+  <!-- ====== SCREEN 1: HOME ====== -->
+  <div id="screen-home" class="panel" style="width:100%;max-width:480px;">
+    <div class="panel-title">Nouvelle partie</div>
+
+    <div class="flex-col">
+      <input type="text" id="player-name" placeholder="Ton pseudo" maxlength="18" autocomplete="off">
+      <button class="btn btn-primary btn-full" onclick="createRoom()">⚡ Créer une salle</button>
+    </div>
+
+    <div class="or-divider">ou</div>
+
+    <div class="flex-col">
+      <input type="text" id="join-code" placeholder="Code de salle (ex: AB12)" maxlength="6" style="text-transform:uppercase;text-align:center;font-family:'JetBrains Mono',monospace;font-size:20px;letter-spacing:0.2em;" autocomplete="off">
+      <button class="btn btn-acid btn-full" onclick="joinRoom()">🎮 Rejoindre</button>
+    </div>
+
+    <p class="text-muted mt-8" style="text-align:center;">Minimum 2 joueurs · Pas besoin de compte</p>
+  </div>
+
+  <!-- ====== SCREEN 2: LOBBY ====== -->
+  <div id="screen-lobby" class="panel hidden" style="width:100%;max-width:560px;">
+    <div class="panel-title">Salle d'attente</div>
+
+    <div class="code-box">
+      <div>
+        <div class="text-muted" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">Code de salle</div>
+        <div class="code-display" id="room-code-display">----</div>
+      </div>
+      <button class="copy-btn" onclick="copyCode()">📋 Copier</button>
+    </div>
+
+    <div class="url-share-box">
+      <span style="font-size:18px;">🔗</span>
+      <div style="flex:1">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--win);text-transform:uppercase;margin-bottom:4px;">Lien direct</div>
+        <div class="url-share-text" id="share-url">—</div>
+      </div>
+      <button class="copy-btn" onclick="copyLink()" style="border-color:rgba(16,185,129,0.3);color:var(--win);background:rgba(16,185,129,0.08);">📋 Copier</button>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="text-muted" style="font-size:12px;margin-bottom:10px;letter-spacing:0.1em;">JOUEURS CONNECTÉS</div>
+      <div class="players-grid" id="lobby-players"></div>
+    </div>
+
+    <div style="margin-top:24px;" id="host-controls">
+      <button class="btn btn-primary btn-full" id="start-btn" onclick="startGame()">▶ Lancer la partie</button>
+      <p class="text-muted mt-8" style="text-align:center;font-size:12px;">Il faut au moins 2 joueurs pour commencer</p>
+    </div>
+
+    <div id="guest-waiting" class="hidden" style="text-align:center;padding:20px 0;">
+      <div class="waiting-dots"><span>·</span><span>·</span><span>·</span></div>
+      <p class="text-muted mt-8">En attente que l'hôte lance la partie</p>
+    </div>
+  </div>
+
+  <!-- ====== SCREEN 3: GAME ====== -->
+  <div id="screen-game" class="hidden" style="width:100%;max-width:760px;">
+
+    <!-- Turn banner -->
+    <div class="turn-banner">
+      <div>
+        <div class="turn-label">Tour actuel</div>
+        <div class="turn-name" id="current-turn-name">—</div>
+      </div>
+      <div class="countdown-ring" id="countdown-ring">
+        <svg width="88" height="88" viewBox="0 0 88 88">
+          <circle class="ring-bg" cx="44" cy="44" r="35"/>
+          <circle class="ring-progress" id="ring-path" cx="44" cy="44" r="35"/>
+        </svg>
+        <div class="countdown-number" id="countdown-num">—</div>
+      </div>
+    </div>
+
+    <!-- Main game panel -->
+    <div class="panel">
+      <div class="panel-title">Chaîne de lettres</div>
+
+      <div class="letter-track" id="letter-track">
+        <span class="text-muted" style="font-size:13px;letter-spacing:0.1em;">En attente de la première lettre…</span>
+      </div>
+
+      <div class="current-word-display" id="current-word-info" style="display:none;">
+        Chaîne : <span class="word-str" id="current-word-str"></span>
+        <span id="word-len-info"></span>
+      </div>
+
+      <!-- MY TURN -->
+      <div id="my-turn-zone" class="hidden">
+        <div class="input-zone">
+          <input type="text" class="letter-input" id="letter-input" maxlength="1" placeholder="A" autocomplete="off" spellcheck="false">
+          <button class="btn btn-primary" onclick="submitLetter()" style="padding:16px 28px;font-size:16px;">→</button>
+        </div>
+        <p class="text-muted mt-8" style="text-align:center;font-size:12px;">Ajoute une lettre · Évite de compléter un vrai mot (≥4 lettres)</p>
+      </div>
+
+      <!-- NOT MY TURN -->
+      <div id="waiting-turn-zone" class="hidden" style="text-align:center;padding:16px 0;">
+        <div class="waiting-dots"><span>·</span><span>·</span><span>·</span></div>
+        <p class="text-muted mt-8">En attente du joueur <strong id="waiting-for-name" style="color:var(--plasma-bright);"></strong></p>
+      </div>
+
+      <div class="word-validated" id="word-validated-msg"></div>
+    </div>
+
+    <!-- Scores -->
+    <div class="panel">
+      <div class="panel-title">Scores</div>
+      <div class="scores-grid" id="scores-grid"></div>
+    </div>
+  </div>
+
+  <!-- ====== SCREEN 4: VICTORY ====== -->
+  <div id="screen-victory" class="panel hidden" style="width:100%;max-width:480px;">
+    <div class="victory-screen">
+      <span class="victory-crown">👑</span>
+      <div class="victory-title">VICTOIRE</div>
+      <div class="victory-winner" id="winner-name">—</div>
+      <p class="text-muted">Seul survivant · Toute gloire lui revient</p>
+      <div style="margin-top:32px;">
+        <button class="btn btn-primary btn-full" onclick="resetToHome()" style="font-size:16px;">↩ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  LAS PALABRAS — Local-first P2P simulation via localStorage
+//  With shareable URL (room code in hash)
+// ============================================================
+
+const TIMER_SECONDS = 15;
+const MIN_WORD_LENGTH = 4; // mot doit avoir au moins 4 lettres pour être validé
+
+// French word dictionary (common words for validation)
+const FRENCH_WORDS = new Set([
+  // 4 lettres
+  "abat","able","abri","acte","aide","aile","aire","aise","aman","amis","amor","ange","anti","arme","arpe","arte","arme",
+  "bain","bale","bane","bard","bare","barm","bats","beau","bien","bile","bise","bois","bole","bond","bore","bout","bras","bref","brin","brun",
+  "cage","cake","cale","came","cane","cape","cari","case","cave","cepe","chai","chai","choc","clef","code","cola","come","cone","cope","copi","cora","cote","coup","cour","coût","crin",
+  "dale","dame","dard","dare","date","daub","dent","dieu","dime","dine","disc","dodo","dome","done","dons","dope","dort","dote","doux","drap","droit","dune","dure",
+  "elan","emir","epis","erne","espe","etch","eton","evel","exam",
+  "face","fade","fait","fake","fame","fane","fare","fart","faux","faux","feme","fend","feni","fere","fige","file","film","fine","fion","fisc","flot","flou","flue","fond","fons","fors","fort","foug","foug","four","frai","frai","fret","fric","frit","froe","from","fume",
+  "gale","gamp","gard","gars","gave","gaze","gele","geme","gene","gens","gite","giue","glas","gobe","gone","gore","gout","goût","gras","grat","gril","gris","gros","guet","guer","guib","guid","guil","guid",
+  "haie","hale","hame","haro","have","hein","hene","heur","hier","hole","home","hone","hors","hote","houx","huée","huis","hune","hurle",
+  "ices","idea","idee","idée","igue","ilot","imam","inde","inge","iris","isle",
+  "jade","jamb","jape","jard","jars","jean","jobe","joie","joins","jota","joue","jour","jure","jury","just",
+  "kale","kart","kata","khan","kine","kite","kola","kroo",
+  "lace","lard","lare","lard","lars","lase","late","lave","leve","lice","lied","lieu","lime","lino","lion","lire","lobe","loin","lone","long","lope","lore","lori","lors","lour","loue","loup","lure",
+  "mage","mags","male","malt","mame","mane","marc","mare","maro","mars","mate","mats","maux","maul","maur","mede","mele","mène","mere","mère","mine","mise","mite","mode","moie","moil","mois","mole","more","mort","mote","moue","mout","moût","mule","mure","muse","mute",
+  "naif","naïf","nain","nait","nard","nase","nave","neem","nene","nerf","nidi","niel","noir","nome","nope","nord","norm","note","noue","nous","nude","nuit","nule","nupe",
+  "oboe","obus","ocre","ogre","oies","omis","onde","opte","oral","orge","orle","orme","orné","osie","ours","oust","ovni",
+  "pace","page","pale","pane","pans","papa","parc","pare","pari","pars","pate","pâte","pave","pavé","peau","pele","pend","peon","pere","père","pied","pile","pine","ping","pipe","pire","pisc","pist","pite","plan","plat","ploc","plot","plue","plus","pois","pole","polo","pore","port","pose","post","pote","pouf","pour","pout","prés","pris","pros","prou","prué","puce","puje","pull","puma","puni","puré","pure",
+  "race","rage","raid","raie","rain","rame","rang","rape","rats","rave","real","réal","repu","rest","reve","rêve","rial","ride","rien","rime","rire","rite","robe","roch","role","rôle","rond","rone","rose","roue","roui","roux","rude","ruse",
+  "sacs","sage","sale","sali","sang","sans","sape","sari","saut","save","saxe","scop","seau","sels","serf","sers","sève","sire","soda","soif","soie","sole","some","sone","sons","sort","soue","soul","soum","sous","spas","spot","stem","stop","stub","suer","suis","sure","sûre","suri",
+  "tain","tale","tane","tapi","tard","tare","taro","tars","taux","tels","teme","tems","tend","test","text","tilt","tins","tire","tirs","toit","tome","tops","tord","tors","tort","tôts","toue","tour","tous","tout","trac","tram","tref","tres","très","trie","trio","trop","trot","troue","tuba","tube","tuée","tuil","turc","type",
+  "urne","usée","user","uvée",
+  "vain","vale","vamp","vane","vars","vase","velu","vend","venu","verb","vers","vice","vide","vile","vins","vioc","vire","vite","voeu","voie","voix","vole","vomi","vote","voué","vous","voûte","vrai","vues",
+  "yoga","yole","yoyo",
+  "zele","zèle","zinc","zone","zoom",
+  // 5 lettres +
+  "aimer","amour","anime","arbre","arche","argot","armes","atout","avant","avare",
+  "balle","belle","blanc","bleue","blond","bonne","brise","brume","bruit",
+  "cable","cache","carte","cause","champ","chant","chose","cible","clair","coeur","coqui","corps","coude","crime","croix","cuire",
+  "dance","danser","debut","debut","delta","dense","desor","dette","deuil","devoi","digne","direc","discu","donne","doubl","douce","douel","droit","drôle",
+  "eclai","ecrire","effet","egale","eglise","eleve","elite","emett","encor","endro","enemi","enfan","enfer","enjeu","envie","epais","epice","epine","epoqu","equip","erreur","espec","espoi","etape","etoil","evide",
+  "fable","facon","faure","femme","ferme","feter","fiche","fiert","figur","fille","fixer","fleur","flore","folie","force","forme","foule","franc","froid",
+  "gagne","garde","genre","glace","gloir","grace","grand","greve","griff","grond","group","guard","guerre","guide",
+  "habit","honte","hotel","humeu","ideal","image","indie","jaune","jeune","jouer","juste",
+  "large","leger","lecon","libre","ligne","linge","lions","livre","local","longu","lumie",
+  "magic","maint","maque","marqu","masse","meill","mener","merci","metre","mieux","milit","monde","monte","moral","motif","motte","mouil","moven","mythe",
+  "navre","nette","noble","noeud","noire","nuage","nuite","nulle","nuits",
+  "offre","opera","ordre","ortho","outri","ouvri",
+  "paisi","paire","passe","pause","payer","peine","peche","pense","perdu","perfe","perte","petri","piece","pique","place","plage","plaie","plain","plant","plate","plein","pleur","point","polit","porte","poser","pouvo","premi","prise","privi","produ","projet","propo","prove","publi",
+  "quale","quest",
+  "racer","rafle","range","rappr","rayon","react","rebut","recit","refus","regal","reine","relev","rempl","rende","repas","repor","repro","resis","resou","respe","resto","retou","revel","rgner","rider","rigou","robot","roche","rompe","route","royal","rumeu","russe",
+  "saint","salle","salut","sangl","sauve","scien","sente","serve","seule","siege","signe","simpl","sinon","socia","soins","soirt","solve","somme","sorti","souci","souff","souha","sourc","sport","suivi","suite","super","surpr","syste",
+  "taire","tarde","telep","telle","temps","tenir","tente","terme","terre","tiers","titre","toniq","tordu","total","touch","tourn","trace","trait","trans","treme","trete","trois","troph","trous","trouv","tryon","tueur",
+  "ulcre","union","unite","urban","usage","utile",
+  "valeu","valid","valoi","vertu","vieil","viser","visib","vites","vivre","voeux","volon","vouloi","voyag",
+  "zeste"
+]);
+
+// Validate word (at least 4 letters + exists in French)
+function isValidWord(str) {
+  if (str.length < MIN_WORD_LENGTH) return false;
+  const lower = str.toLowerCase();
+  // Check exact or prefix match
+  if (FRENCH_WORDS.has(lower)) return true;
+  // Also check if the string starts with a known word of MIN_WORD_LENGTH+
+  for (const w of FRENCH_WORDS) {
+    if (w.length >= MIN_WORD_LENGTH && lower === w) return true;
+  }
+  return false;
+}
+
+// ---- STATE ----
+let myId = null;
+let myName = '';
+let roomCode = null;
+let isHost = false;
+let gameState = null;
+let countdownInterval = null;
+let pollInterval = null;
+let lastStateHash = '';
+
+function genId() {
+  return Math.random().toString(36).slice(2,10);
+}
+
+function genRoomCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({length:4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+}
+
+// ---- STORAGE HELPERS (simulate server via localStorage) ----
+function getRoom(code) {
+  try { return JSON.parse(localStorage.getItem('lp_room_' + code)); } catch { return null; }
+}
+
+function saveRoom(code, data) {
+  localStorage.setItem('lp_room_' + code, JSON.stringify(data));
+}
+
+function stateHash(gs) {
+  return JSON.stringify(gs);
+}
+
+// ---- NOTIFICATION ----
+let notifTimeout;
+function notify(msg, type='info', duration=3000) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'notif ' + type + ' show';
+  clearTimeout(notifTimeout);
+  notifTimeout = setTimeout(() => { el.classList.remove('show'); }, duration);
+}
+
+// ---- URL SHARE ----
+function getShareURL(code) {
+  const base = window.location.href.split('#')[0].split('?')[0];
+  return base + '?room=' + code;
+}
+
+function checkURLRoom() {
+  const params = new URLSearchParams(window.location.search);
+  const room = params.get('room');
+  if (room) {
+    document.getElementById('join-code').value = room.toUpperCase();
+    notify('Code détecté : ' + room.toUpperCase() + ' — entre ton pseudo et rejoins !', 'info', 5000);
+  }
+}
+
+// ---- CREATE ROOM ----
+function createRoom() {
+  myName = document.getElementById('player-name').value.trim();
+  if (!myName) { notify('Entre ton pseudo !', 'warn'); return; }
+
+  myId = genId();
+  roomCode = genRoomCode();
+  isHost = true;
+
+  const room = {
+    code: roomCode,
+    host: myId,
+    phase: 'lobby',
+    players: [{id: myId, name: myName, score: 0, eliminated: false}],
+    chain: [],
+    currentTurn: 0,
+    timerStart: null,
+    words: [],
+    roundNum: 1,
+    lastAction: Date.now()
+  };
+
+  saveRoom(roomCode, room);
+  gameState = room;
+
+  showLobby();
+  startPolling();
+}
+
+// ---- JOIN ROOM ----
+function joinRoom() {
+  myName = document.getElementById('player-name').value.trim();
+  const code = document.getElementById('join-code').value.trim().toUpperCase();
+
+  if (!myName) { notify('Entre ton pseudo !', 'warn'); return; }
+  if (!code) { notify('Entre un code de salle !', 'warn'); return; }
+
+  const room = getRoom(code);
+  if (!room) { notify('Salle introuvable. Vérifie le code.', 'error'); return; }
+  if (room.phase !== 'lobby') { notify('Partie déjà commencée !', 'warn'); return; }
+
+  // Check if already in room
+  const existing = room.players.find(p => p.name.toLowerCase() === myName.toLowerCase());
+  if (existing) {
+    myId = existing.id;
+  } else {
+    myId = genId();
+    room.players.push({id: myId, name: myName, score: 0, eliminated: false});
+    saveRoom(code, room);
+  }
+
+  roomCode = code;
+  isHost = false;
+  gameState = room;
+
+  showLobby();
+  startPolling();
+}
+
+// ---- SHOW LOBBY ----
+function showLobby() {
+  document.getElementById('screen-home').classList.add('hidden');
+  document.getElementById('screen-lobby').classList.remove('hidden');
+  document.getElementById('room-code-display').textContent = roomCode;
+
+  const shareURL = getShareURL(roomCode);
+  document.getElementById('share-url').textContent = shareURL;
+
+  if (isHost) {
+    document.getElementById('host-controls').classList.remove('hidden');
+    document.getElementById('guest-waiting').classList.add('hidden');
+  } else {
+    document.getElementById('host-controls').classList.add('hidden');
+    document.getElementById('guest-waiting').classList.remove('hidden');
+  }
+
+  renderLobbyPlayers();
+}
+
+function renderLobbyPlayers() {
+  const room = getRoom(roomCode) || gameState;
+  if (!room) return;
+  const el = document.getElementById('lobby-players');
+  el.innerHTML = '';
+  room.players.forEach(p => {
+    const chip = document.createElement('div');
+    chip.className = 'player-chip';
+    chip.innerHTML = `<div class="player-dot ready"></div><span>${escHtml(p.name)}${p.id === room.host ? ' 👑' : ''}</span>`;
+    el.appendChild(chip);
+  });
+
+  const startBtn = document.getElementById('start-btn');
+  if (startBtn) startBtn.disabled = room.players.length < 2;
+}
+
+// ---- START GAME ----
+function startGame() {
+  const room = getRoom(roomCode);
+  if (!room) return;
+  if (room.players.length < 2) { notify('Il faut au moins 2 joueurs !', 'warn'); return; }
+
+  room.phase = 'game';
+  room.currentTurn = 0;
+  room.chain = [];
+  room.timerStart = Date.now();
+  room.lastAction = Date.now();
+  saveRoom(roomCode, room);
+  gameState = room;
+
+  showGame();
+}
+
+// ---- SHOW GAME ----
+function showGame() {
+  document.getElementById('screen-lobby').classList.add('hidden');
+  document.getElementById('screen-game').classList.remove('hidden');
+  renderGame();
+}
+
+function renderGame() {
+  const room = getRoom(roomCode) || gameState;
+  if (!room) return;
+  gameState = room;
+
+  if (room.phase === 'victory') {
+    showVictory(room);
+    return;
+  }
+
+  const activePlayers = room.players.filter(p => !p.eliminated);
+  const currentPlayer = activePlayers[room.currentTurn % activePlayers.length];
+
+  // Turn banner
+  document.getElementById('current-turn-name').textContent = currentPlayer ? currentPlayer.name : '—';
+
+  // Letter track
+  const track = document.getElementById('letter-track');
+  if (room.chain.length === 0) {
+    track.innerHTML = '<span class="text-muted" style="font-size:13px;letter-spacing:0.1em;">En attente de la première lettre…</span>';
+  } else {
+    track.innerHTML = '';
+    room.chain.forEach((letter, i) => {
+      const tile = document.createElement('div');
+      tile.className = 'letter-tile placed' + (i === room.chain.length - 1 ? ' new-tile' : '');
+      tile.textContent = letter.toUpperCase();
+      track.appendChild(tile);
+    });
+  }
+
+  // Word info
+  if (room.chain.length > 0) {
+    document.getElementById('current-word-info').style.display = 'block';
+    document.getElementById('current-word-str').textContent = room.chain.join('').toUpperCase();
+    const len = room.chain.length;
+    document.getElementById('word-len-info').textContent = ` (${len} lettre${len>1?'s':''})`;
+  } else {
+    document.getElementById('current-word-info').style.display = 'none';
+  }
+
+  // My turn?
+  const isMyTurn = currentPlayer && currentPlayer.id === myId;
+  document.getElementById('my-turn-zone').classList.toggle('hidden', !isMyTurn);
+  document.getElementById('waiting-turn-zone').classList.toggle('hidden', isMyTurn);
+
+  if (!isMyTurn && currentPlayer) {
+    document.getElementById('waiting-for-name').textContent = currentPlayer.name;
+  }
+
+  if (isMyTurn) {
+    setTimeout(() => {
+      const inp = document.getElementById('letter-input');
+      if (inp) inp.focus();
+    }, 100);
+  }
+
+  // Scores
+  renderScores(room);
+
+  // Countdown
+  startCountdown(room);
+}
+
+function renderScores(room) {
+  const el = document.getElementById('scores-grid');
+  el.innerHTML = '';
+  room.players.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'score-row' + (p.eliminated ? ' eliminated-row' : '');
+    row.innerHTML = `
+      <span>${escHtml(p.name)}${p.id === room.host ? ' 👑' : ''}${p.eliminated ? ' ☠️' : ''}</span>
+      <span class="score-badge">${p.score} perdu${p.score !== 1 ? 's' : ''}</span>
+    `;
+    el.appendChild(row);
+  });
+}
+
+// ---- COUNTDOWN ----
+function startCountdown(room) {
+  clearInterval(countdownInterval);
+  const ring = document.getElementById('ring-path');
+  const numEl = document.getElementById('countdown-num');
+  const ringContainer = document.getElementById('countdown-ring');
+
+  if (!room.timerStart) return;
+
+  const circumference = 2 * Math.PI * 35; // r=35
+
+  function tick() {
+    const elapsed = (Date.now() - room.timerStart) / 1000;
+    const remaining = Math.max(0, TIMER_SECONDS - elapsed);
+    const frac = remaining / TIMER_SECONDS;
+
+    numEl.textContent = Math.ceil(remaining);
+    ring.style.strokeDashoffset = circumference * (1 - frac);
+
+    // Color states
+    ring.classList.remove('urgent', 'critical');
+    numEl.classList.remove('urgent', 'critical');
+    if (remaining <= 5) {
+      ring.classList.add('critical');
+      numEl.classList.add('critical');
+    } else if (remaining <= 8) {
+      ring.classList.add('urgent');
+      numEl.classList.add('urgent');
+    }
+
+    if (remaining <= 0) {
+      clearInterval(countdownInterval);
+      // Time's up! Auto-eliminate current player if it's my game host responsibility
+      handleTimeout(room);
+    }
+  }
+
+  ring.style.strokeDasharray = circumference;
+  tick();
+  countdownInterval = setInterval(tick, 200);
+}
+
+function handleTimeout(room) {
+  // Only host handles timeout to avoid duplicate processing
+  if (!isHost) return;
+
+  const freshRoom = getRoom(roomCode);
+  if (!freshRoom || freshRoom.phase !== 'game') return;
+
+  // Check if timer already advanced (another action happened)
+  if (Date.now() - freshRoom.timerStart < TIMER_SECONDS * 1000 - 500) return;
+
+  const activePlayers = freshRoom.players.filter(p => !p.eliminated);
+  const currentPlayer = activePlayers[freshRoom.currentTurn % activePlayers.length];
+
+  if (!currentPlayer) return;
+
+  notify(`⏱️ ${currentPlayer.name} a manqué son tour !`, 'warn');
+
+  // Penalize
+  currentPlayer.score += 1;
+
+  // Eliminate after 3 losses
+  if (currentPlayer.score >= 3) {
+    currentPlayer.eliminated = true;
+  }
+
+  // Reset chain
+  freshRoom.chain = [];
+
+  // Next turn
+  const stillActive = freshRoom.players.filter(p => !p.eliminated);
+  if (stillActive.length <= 1) {
+    freshRoom.phase = 'victory';
+    freshRoom.winner = stillActive[0]?.name || 'Personne';
+    saveRoom(roomCode, freshRoom);
+    return;
+  }
+
+  // Find next active player
+  freshRoom.currentTurn = getNextTurnIndex(freshRoom);
+  freshRoom.timerStart = Date.now();
+  freshRoom.lastAction = Date.now();
+  saveRoom(roomCode, freshRoom);
+}
+
+function getNextTurnIndex(room) {
+  const activePlayers = room.players.filter(p => !p.eliminated);
+  if (activePlayers.length === 0) return 0;
+  const currentActive = room.players.filter(p => !p.eliminated);
+  const currentIdx = room.currentTurn % currentActive.length;
+  return (currentIdx + 1) % currentActive.length;
+  // Map back to global index
+}
+
+// ---- SUBMIT LETTER ----
+function submitLetter() {
+  const inp = document.getElementById('letter-input');
+  const letter = inp.value.trim().toUpperCase();
+  inp.value = '';
+
+  if (!letter || !/^[A-Z]$/.test(letter)) {
+    notify('Entre une seule lettre (A-Z) !', 'warn');
+    return;
+  }
+
+  const room = getRoom(roomCode);
+  if (!room || room.phase !== 'game') return;
+
+  const activePlayers = room.players.filter(p => !p.eliminated);
+  const currentPlayer = activePlayers[room.currentTurn % activePlayers.length];
+
+  if (!currentPlayer || currentPlayer.id !== myId) {
+    notify("Ce n'est pas ton tour !", 'warn');
+    return;
+  }
+
+  // Add letter
+  const newChain = [...room.chain, letter];
+  const word = newChain.join('').toLowerCase();
+
+  // Check if this completes a real word (≥4 letters)
+  if (isValidWord(word)) {
+    // This player LOSES this round
+    notify(`💀 "${word.toUpperCase()}" est un vrai mot ! ${currentPlayer.name} perd un point !`, 'error', 4000);
+
+    // Flash tiles red
+    flashLoseTiles();
+
+    currentPlayer.score += 1;
+    if (currentPlayer.score >= 3) {
+      currentPlayer.eliminated = true;
+    }
+
+    room.chain = [];
+
+    const stillActive = room.players.filter(p => !p.eliminated);
+    if (stillActive.length <= 1) {
+      room.phase = 'victory';
+      room.winner = stillActive[0]?.name || 'Personne';
+      saveRoom(roomCode, room);
+      setTimeout(() => renderGame(), 2000);
+      return;
+    }
+
+    // Next turn
+    const activeIdx = activePlayers.findIndex(p => p.id === currentPlayer.id);
+    const newActiveIdx = (activeIdx + 1) % stillActive.length;
+    room.currentTurn = newActiveIdx;
+
+    room.timerStart = Date.now();
+    room.lastAction = Date.now();
+    saveRoom(roomCode, room);
+
+    setTimeout(() => renderGame(), 1500);
+    return;
+  }
+
+  // Normal: add letter
+  room.chain = newChain;
+  const activeIdx = activePlayers.findIndex(p => p.id === currentPlayer.id);
+  const newActiveIdx = (activeIdx + 1) % activePlayers.length;
+  room.currentTurn = newActiveIdx;
+  room.timerStart = Date.now();
+  room.lastAction = Date.now();
+  saveRoom(roomCode, room);
+
+  renderGame();
+}
+
+function flashLoseTiles() {
+  const track = document.getElementById('letter-track');
+  track.querySelectorAll('.letter-tile').forEach(t => {
+    t.classList.add('word-lose');
+  });
+}
+
+// ---- VICTORY ----
+function showVictory(room) {
+  clearInterval(countdownInterval);
+  clearInterval(pollInterval);
+  document.getElementById('screen-game').classList.add('hidden');
+  document.getElementById('screen-victory').classList.remove('hidden');
+  document.getElementById('winner-name').textContent = room.winner || '???';
+  notify('🏆 Partie terminée !', 'success', 5000);
+}
+
+// ---- POLLING (simulate real-time) ----
+function startPolling() {
+  clearInterval(pollInterval);
+  pollInterval = setInterval(() => {
+    const room = getRoom(roomCode);
+    if (!room) return;
+
+    const hash = stateHash(room);
+    if (hash === lastStateHash) return;
+    lastStateHash = hash;
+    gameState = room;
+
+    if (room.phase === 'lobby') {
+      renderLobbyPlayers();
+      // If host started game
+      if (!isHost) {
+        const lobby = document.getElementById('screen-lobby');
+        if (!lobby.classList.contains('hidden')) {
+          if (room.phase === 'game') showGame();
+        }
+      }
+    } else if (room.phase === 'game') {
+      const lobby = document.getElementById('screen-lobby');
+      if (!lobby.classList.contains('hidden')) {
+        showGame();
+      } else {
+        renderGame();
+      }
+    } else if (room.phase === 'victory') {
+      showVictory(room);
+    }
+  }, 600);
+}
+
+// ---- COPY ----
+function copyCode() {
+  navigator.clipboard.writeText(roomCode).then(() => notify('Code copié !', 'success')).catch(() => {
+    // Fallback
+    const el = document.createElement('textarea');
+    el.value = roomCode;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    notify('Code copié !', 'success');
+  });
+}
+
+function copyLink() {
+  const url = getShareURL(roomCode);
+  navigator.clipboard.writeText(url).then(() => notify('Lien copié ! Partage-le pour jouer.', 'success', 4000)).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = url;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    notify('Lien copié !', 'success');
+  });
+}
+
+// ---- RESET ----
+function resetToHome() {
+  clearInterval(countdownInterval);
+  clearInterval(pollInterval);
+  document.getElementById('screen-victory').classList.add('hidden');
+  document.getElementById('screen-game').classList.add('hidden');
+  document.getElementById('screen-lobby').classList.add('hidden');
+  document.getElementById('screen-home').classList.remove('hidden');
+  roomCode = null;
+  isHost = false;
+  gameState = null;
+  lastStateHash = '';
+  // Clear URL param
+  window.history.replaceState({}, '', window.location.pathname);
+}
+
+// ---- KEYBOARD SHORTCUT ----
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const gameVisible = !document.getElementById('screen-game').classList.contains('hidden');
+    const homeVisible = !document.getElementById('screen-home').classList.contains('hidden');
+    if (gameVisible) submitLetter();
+    if (homeVisible) {
+      const code = document.getElementById('join-code').value.trim();
+      if (code) joinRoom(); else createRoom();
+    }
+  }
+});
+
+// Only accept single letter
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'letter-input') {
+    e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '').slice(-1).toUpperCase();
+  }
+});
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ---- INIT ----
+window.addEventListener('load', () => {
+  checkURLRoom();
+});
+</script>
+</body>
+</html>
